@@ -4,7 +4,8 @@ const { participants } = require('./data');
 
 const app = express();
 
-app.use(cors());
+//app.use(cors());
+app.use(cors({ origin: '*' }));
 
 app.get('/participants', (_, res) => {
   if (!participants || participants.length === 0) {
@@ -31,3 +32,7 @@ app.listen(PORT, () => {
 console.log('Participants data:', participants);
 
 module.exports = { app };
+
+module.exports = (req, res) => {
+  app(req, res);  // Proxy the request to the Express app
+};
