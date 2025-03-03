@@ -8,5 +8,8 @@ Bootstrapped with React and Typescript, I spent roughly 20 hours completing this
 - Cleaned up styling with individual components
 - Changed the icdCode constant to a map with the corresponding medical conditions due to difficulties getting the server to connect with the Clinical Table Search Service API
 
+### NOTES WHEN RUNNING
+When running API locally, write: NODE_ENV=development node app.js
+
 ### LINK TO APPLICATION (deployed with Vercel)
 https://intus-care-application-n5043i76i-myan-nguyens-projects.vercel.app/
