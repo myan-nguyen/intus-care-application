@@ -4,18 +4,7 @@ const { participants } = require('./data');
 
 const app = express();
 
-// Ensure PORT and CLIENT_ORIGIN are set in the environment
-if (!process.env.PORT || !process.env.CLIENT_ORIGIN) {
-  throw new Error("Missing required environment variables: PORT or CLIENT_ORIGIN");
-}
-
-const PORT = process.env.PORT;
-const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN;
-
-// Enable CORS for frontend requests
-app.use(cors({ origin: CLIENT_ORIGIN }));
-
-app.use(express.json());
+app.use(cors());
 
 app.get('/participants', (_, res) => {
   if (!participants || participants.length === 0) {
@@ -34,8 +23,11 @@ app.get('/participants/:id', (req, res) => {
   }
 });
 
+const PORT = 5001;
 app.listen(PORT, () => {
-  console.log(`API is running on port ${PORT}`);
+  console.log(`API is running on http://localhost:${PORT}`);
 });
+
+console.log('Participants data:', participants);
 
 module.exports = { app };
