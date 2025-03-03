@@ -1,9 +1,7 @@
 import axios from 'axios';
 import { Participant } from '../types/types';
 
-//const API_BASE_URL = 'http://localhost:5002';
-
-// Dynamically set the API base URL based on the environment (local vs production)
+// dynamically set the API base URL based on the environment (local vs production)
 const API_BASE_URL = process.env.NODE_ENV === 'development'
   ? 'http://localhost:5001'  // Local API URL
   : 'https://intus-care-application.vercel.app/api';  // Vercel URL
