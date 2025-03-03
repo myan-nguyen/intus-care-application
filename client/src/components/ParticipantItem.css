@@ -1,0 +1,35 @@
+.participant-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0px 0.4px 0.4rem 0.06rem rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    color: #626275;
+    font-size: 20px;
+    font-weight: normal;
+    height: 60px;
+    width: 90%;
+    border-radius: 10px;
+    align-items: center;
+    background-color: white;
+  }
+  
+  .participant-item:hover {
+    border: 2px solid rgba(77, 126, 248, 0.5);
+    box-shadow: 0px 0.4px 0.4rem 0.06rem rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+  
+  .participant-name {
+    padding-left: 35px;
+    font-weight: normal;
+  }
+  
+  .icd-count {
+    color: #062D8F;
+    font-weight: normal;
+    margin-right: 313px;
+  }
