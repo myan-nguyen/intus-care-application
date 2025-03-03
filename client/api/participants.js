@@ -14,8 +14,8 @@ module.exports = (req, res) => {
         } else {
           return res.status(404).json({ message: 'Participant not found' });  // Participant not found
         }
-      } else if (req.url.includes("/participants/")) {
-        // Handle participant by ID (e.g., /api/participants/:id)
+      } else if (req.url.includes("/participant/")) {
+        // Handle participant by ID (e.g., /api/participant/:id)
         const participantId = req.url.split("/").pop(); // Get the participant ID from URL
         const participant = participants.find(p => p.id === participantId);
         if (participant) {
