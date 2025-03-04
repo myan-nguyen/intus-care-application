@@ -53,7 +53,9 @@ const ParticipantFocusView: React.FC = () => {
 
         {/* Diagnoses Box */}
         <div className="diagnoses-box">
-          <h2 className="participant-name-2">{participant.firstName} {participant.lastName}</h2>
+          <h2 className="participant-name-2">{
+          participant.firstName} {participant.lastName}
+          </h2>
           <h3 className="icd-code-label">ICD Codes ({participant.diagnoses.length})</h3>
           
           {/* Diagnoses Items */}
@@ -71,6 +73,7 @@ const ParticipantFocusView: React.FC = () => {
               </motion.div>
             ))}
           </motion.div>
+
         </div>
       </section>
     </motion.div>

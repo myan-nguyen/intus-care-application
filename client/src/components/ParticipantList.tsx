@@ -25,6 +25,7 @@ const ParticipantList: React.FC<ParticipantListProps> = ({
   const [sortNameOrder, setSortNameOrder] = useState<'asc' | 'desc'>('asc');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [sortBy, setSortBy] = useState<'name' | 'codeCount'>(propSortBy);
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,13 +41,22 @@ const ParticipantList: React.FC<ParticipantListProps> = ({
       });
   }, []);
 
-  // filter participants
-  const filteredParticipants = participants.filter((participant) =>
-    `${participant.firstName} ${participant.lastName}`
+  // filter participants based on name or a specific icd code (i.e. C19)
+  const filteredParticipants = participants.filter((participant) => {
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+  
+    const nameMatch = `${participant.firstName} ${participant.lastName}`
       .toLowerCase()
-      .includes(filter.toLowerCase())
-  );
-
+      .includes(lowerCaseSearchTerm);
+  
+    const icdMatch = participant.diagnoses.some((diagnosis) => {
+      const icdCodeLower = diagnosis.icdCode.toLowerCase();
+      return icdCodeLower.includes(lowerCaseSearchTerm);
+    });
+  
+    return nameMatch || icdMatch;
+  });
+  
   // sort participants
   const sortedParticipants = filteredParticipants.sort((a, b) => {
     if (sortBy === 'name') {
@@ -88,6 +98,15 @@ const ParticipantList: React.FC<ParticipantListProps> = ({
           {/* Column Labels */}
           <div className="column-labels">
             <span className="participant-name-heading">Participant Name</span>
+            {/* Search Bar */}
+            <input
+                type="text"
+                placeholder="Search by Name or ICD Code..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-input"
+              />
+
             <div className="icd-sort-container">
               <span className="icd-label">ICD Codes</span>
               {/* Sort By ICD Code Lengths Button */}
