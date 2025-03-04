@@ -8,9 +8,6 @@ module.exports = (req, res) => {
       const participantId = req.url.split("/").pop();
       const participant = participants.find(p => p.id === participantId);
 
-      console.log('Requested ID:', id);  // Log the requested ID
-        console.log('Participants:', participants.map(p => p.id));
-
       if (participant) {
         return res.json(participant);  // Return the participant by ID
       } else {

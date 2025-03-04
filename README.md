@@ -9,5 +9,8 @@ Bootstrapped with React and Typescript, I spent roughly 20 hours completing this
 - Changed the icdCode constant to a map with the corresponding medical conditions due to difficulties getting the server to connect with the Clinical Table Search Service API
 
 ### LINK TO APPLICATION (deployed with Vercel)
-NOTE: 
+NOTE: THE APP IS FULLY FUNCTIONAL ONLY WHEN RUN LOCALLY
+
+** there are some difficulty/bugs loading the ParticipantFocusView page in the vercel app that I found after emailing the Vercel link, please run locally to judge on full functionality, am unable to fully debug in the allotted time **
+
 https://intus-care-application-myan-nguyens-projects.vercel.app/
