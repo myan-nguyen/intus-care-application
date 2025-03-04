@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import './Modal.css';
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  content: string; // The extra information to display in the modal
+  content: string | ReactNode; // The extra information to display in the modal
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, content }) => {
@@ -16,7 +16,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, content }) => {
         <button className="close-button" onClick={onClose}>
           &times; {/* Close button */}
         </button>
-        <div dangerouslySetInnerHTML={{ __html: content }} />
+        {typeof content === 'string' ? (
+          <div dangerouslySetInnerHTML={{ __html: content }} />  // If content is string, use dangerouslySetInnerHTML
+        ) : (
+          content  // Otherwise render it as a ReactNode
+        )}
       </div>
     </div>
   );

@@ -6,9 +6,11 @@ Bootstrapped with React and Typescript, I spent roughly 20 hours completing this
 - Extending sorting by adding an ascending/descending alphabetical sort button, can also be toggled
 - Can export participant's conditions and corresponding ICD Codes in a PDF file for sharing
 - Can view additional patient information in a modal by toggling button in ParticipantFocusView
+- Can view partipcant diagnoses over time in a timeline modal (Chart.js) with each point diplaying the condition diagnosed at that timestamp, useful for tracking participant medical progress over time
 - Used Framer Motion for a cleaner UX: incorporated subtle hover animations, animated the "Back" Button and created smooth transitions between ParticipantList and ParticipantFocusView screens
-- Implemented a loading screen spinner animations
+- Implemented a loading screen spinner animation
 - Cleaned up styling with individual components
+- Dynamic routing between pages
 - Changed the icdCode constant to a map with the corresponding medical conditions due to difficulties getting the server to connect with the Clinical Table Search Service API
 
 ### TO RUN LOCALLY:

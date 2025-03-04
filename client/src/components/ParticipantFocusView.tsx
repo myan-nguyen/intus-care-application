@@ -7,7 +7,12 @@ import { ReactComponent as Logo } from '../assets/logo_IntusCare.svg';
 import { motion } from 'framer-motion';
 import { jsPDF } from 'jspdf';
 import downloadIcon from '../assets/download-icon.png';
+import timelineIcon from '../assets/timeline-icon.png';
 import Modal from './Modal';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const ParticipantFocusView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,6 +21,7 @@ const ParticipantFocusView: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState('');
+  const [isTimelineModalOpen, setIsTimelineModalOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -91,7 +97,76 @@ const ParticipantFocusView: React.FC = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
+  const handleOpenTimelineModal = () => {
+    setIsTimelineModalOpen(true);
+  };
+
+  const handleCloseTimelineModal = () => {
+    setIsTimelineModalOpen(false);
+  };
   
+  const sortedDiagnoses = participant.diagnoses.sort((a, b) => {
+    const dateA = new Date(a.timestamp); 
+    const dateB = new Date(b.timestamp);
+    return dateA.getTime() - dateB.getTime();
+  });
+
+  const chartData = {
+    labels: sortedDiagnoses.map((diagnosis) => new Date(diagnosis.timestamp).toLocaleDateString()), // Dates as X-axis labels
+    datasets: [
+      {
+        label: 'Diagnoses Over Time',
+        data: sortedDiagnoses.map((diagnosis, index) => ({
+          x: new Date(diagnosis.timestamp).toLocaleDateString(), // Date on X-axis
+          y: 1, 
+          condition: diagnosis.conditionName // Attach condition to each point
+        })),
+        borderColor: 'rgba(0, 123, 255, 1)',
+        backgroundColor: 'rgba(75,192,192,0.2)',
+        fill: false, 
+        pointRadius: 5,
+        pointHoverRadius: 7,
+        pointBorderColor: 'rgba(0, 123, 255, 1)',
+        pointBackgroundColor: 'rgba(0, 123, 255, 1)',
+      },
+    ],
+  };
+  
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Timeline of Diagnoses',
+      },
+      tooltip: {
+        callbacks: {
+          title: (tooltipItems: any) => {
+            return `Date: ${tooltipItems[0].label}`;
+          },
+          label: (tooltipItem: any) => {
+            return `Condition: ${tooltipItem.raw.condition}`;
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Date of Diagnosis',
+        },
+        ticks: {
+          autoSkip: true,
+          maxTicksLimit: 10,
+        },
+      },
+      y: {
+        display: false,
+      },
+    },
+  };  
 
   return (
     <motion.div className={`participant-focus-container ${!isLoading ? 'visible' : ''}`}
@@ -120,6 +195,17 @@ const ParticipantFocusView: React.FC = () => {
             participant.firstName} {participant.lastName}
 
             </h2>
+             {/* Timeline Button */}
+            <button
+              className="timeline-button"
+              onClick={handleOpenTimelineModal}
+            >
+              <img
+                src={timelineIcon}
+                alt="Timeline Icon"
+                className="timeline-icon"
+              />
+            </button>
             {/* Extra Information Button */}
             <button
               className="extra-info-button"
@@ -162,6 +248,10 @@ const ParticipantFocusView: React.FC = () => {
       </section>
       {/* Modal for Extra Information */}
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} content={modalContent} />
+      
+      {/* Timeline Modal with Chart.js */}
+      <Modal isOpen={isTimelineModalOpen} onClose={handleCloseTimelineModal} content={<Line data={chartData} options={chartOptions} />} />
+
     </motion.div>
   );
 };
