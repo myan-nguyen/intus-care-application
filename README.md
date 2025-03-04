@@ -15,14 +15,22 @@ Bootstrapped with React and Typescript, I spent roughly 20 hours completing this
 
 ### TO RUN LOCALLY:
 Start the API:
+
 cd client
+
 cd api
+
 npm install
+
 node index.js
 
+
 Start the frontend:
+
 cd client
+
 npm install
+
 npm start
 
 ### LINK TO APPLICATION (deployed with Vercel)
