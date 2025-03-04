@@ -78,6 +78,12 @@
   margin-right: 7px;
 }
 
+.alph-sort-button:hover,
+.alph-sort-button:focus {
+    background: none;
+    outline: none;
+}
+
 .icd-sort-container {
   display: flex;
   align-items: center;
