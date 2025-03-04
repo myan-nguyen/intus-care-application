@@ -9,4 +9,4 @@ Bootstrapped with React and Typescript, I spent roughly 20 hours completing this
 - Changed the icdCode constant to a map with the corresponding medical conditions due to difficulties getting the server to connect with the Clinical Table Search Service API
 
 ### LINK TO APPLICATION (deployed with Vercel)
-https://intus-care-application-n5043i76i-myan-nguyens-projects.vercel.app/
+https://intus-care-application-myan-nguyens-projects.vercel.app/
