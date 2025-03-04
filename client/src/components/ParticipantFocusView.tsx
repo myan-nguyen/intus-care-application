@@ -7,12 +7,15 @@ import { ReactComponent as Logo } from '../assets/logo_IntusCare.svg';
 import { motion } from 'framer-motion';
 import { jsPDF } from 'jspdf';
 import downloadIcon from '../assets/download-icon.png';
+import Modal from './Modal';
 
 const ParticipantFocusView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [participant, setParticipant] = useState<Participant | null>(null);
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState('');
 
   useEffect(() => {
     if (id) {
@@ -33,44 +36,61 @@ const ParticipantFocusView: React.FC = () => {
     );
   }
 
-const generatePDF = () => {
-  const doc = new jsPDF();
+  const generatePDF = () => {
+    const doc = new jsPDF();
 
-  const title = `${participant.firstName} ${participant.lastName} Diagnoses`;
-  doc.setFontSize(16);
-  doc.setFont("helvetica", "bold");
-  doc.text(title, 20, 20);
+    const title = `${participant.firstName} ${participant.lastName} Diagnoses`;
+    doc.setFontSize(16);
+    doc.setFont("helvetica", "bold");
+    doc.text(title, 20, 20);
 
-  doc.setLineWidth(0.5);
-  doc.line(20, 22, 180, 22);
+    doc.setLineWidth(0.5);
+    doc.line(20, 22, 180, 22);
 
-  const startY = 30;
-  let currentY = startY;
+    const startY = 30;
+    let currentY = startY;
 
-  doc.setFontSize(12);
-  doc.setFont("helvetica", "normal");
-  doc.text('Condition Name', 20, currentY);
-  doc.text('ICD Code', 150, currentY);
-  currentY += 10;
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.text('Condition Name', 20, currentY);
+    doc.text('ICD Code', 150, currentY);
+    currentY += 10;
 
-  currentY += 5;
+    currentY += 5;
 
-  const maxConditionWidth = 80;
+    const maxConditionWidth = 80;
 
-  participant.diagnoses.forEach((diagnosis) => {
-    const wrappedConditionName = doc.splitTextToSize(diagnosis.conditionName, maxConditionWidth);
+    participant.diagnoses.forEach((diagnosis) => {
+      const wrappedConditionName = doc.splitTextToSize(diagnosis.conditionName, maxConditionWidth);
 
-    wrappedConditionName.forEach((line: string, index: number) => {
-      doc.text(line, 20, currentY + (index * 10));
+      wrappedConditionName.forEach((line: string, index: number) => {
+        doc.text(line, 20, currentY + (index * 10));
+      });
+
+      doc.text(diagnosis.icdCode, 150, currentY);
+
+      currentY += wrappedConditionName.length * 10 + 10;
     });
 
-    doc.text(diagnosis.icdCode, 150, currentY);
+    doc.save(`${participant.firstName}_${participant.lastName}_diagnoses.pdf`);
+  };
+  
+  const handleOpenModal = () => {
+    const extraInfo = `
+      <p><strong>Name:</strong> ${participant.firstName} ${participant.lastName}</p>
+      <p><strong>Date of Birth:</strong> ${new Date(participant.dateOfBirth).toLocaleDateString()}</p>
+      <p><strong>Gender:</strong> ${participant.gender}</p>
+      <p><strong>Phone Number:</strong> ${participant.phoneNumber}</p>
+      <p><strong>Patient Notes:</strong> ${participant.patientNotes || 'No additional notes available.'}</p>
+    `;
+    setModalContent(extraInfo);
+    setIsModalOpen(true);
+  };
+  
 
-    currentY += wrappedConditionName.length * 10 + 10;
-  });
-
-  doc.save(`${participant.firstName}_${participant.lastName}_diagnoses.pdf`);
-};
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   
 
   return (
@@ -95,21 +115,31 @@ const generatePDF = () => {
 
         {/* Diagnoses Box */}
         <div className="diagnoses-box">
-          <h2 className="participant-name-2">{
-          participant.firstName} {participant.lastName}
-          {/* Export PDF Button */}
-          <button
-              className="export-button"
-              onClick={generatePDF}
-            >
-              <img
-                  src={downloadIcon}
-                  alt="Download Icon"
-                  className="download-icon"
-                />
-            </button>
+          <div className="diagnoses-headers">
+            <h2 className="participant-name-2">{
+            participant.firstName} {participant.lastName}
 
-          </h2>
+            </h2>
+            {/* Extra Information Button */}
+            <button
+              className="extra-info-button"
+              onClick={handleOpenModal}
+            >
+              +
+            </button>
+            {/* Export PDF Button */}
+            <button
+                className="export-button"
+                onClick={generatePDF}
+              >
+                <img
+                    src={downloadIcon}
+                    alt="Download Icon"
+                    className="download-icon"
+                  />
+              </button>
+          </div>
+          
           <h3 className="icd-code-label">ICD Codes ({participant.diagnoses.length})</h3>
           
           {/* Diagnoses Items */}
@@ -130,6 +160,8 @@ const generatePDF = () => {
 
         </div>
       </section>
+      {/* Modal for Extra Information */}
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} content={modalContent} />
     </motion.div>
   );
 };
