@@ -5,6 +5,8 @@ import { Participant } from '../types/types';
 import './ParticipantFocusView.css';
 import { ReactComponent as Logo } from '../assets/logo_IntusCare.svg';
 import { motion } from 'framer-motion';
+import { jsPDF } from 'jspdf';
+import downloadIcon from '../assets/download-icon.png';
 
 const ParticipantFocusView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,6 +33,46 @@ const ParticipantFocusView: React.FC = () => {
     );
   }
 
+const generatePDF = () => {
+  const doc = new jsPDF();
+
+  const title = `${participant.firstName} ${participant.lastName} Diagnoses`;
+  doc.setFontSize(16);
+  doc.setFont("helvetica", "bold");
+  doc.text(title, 20, 20);
+
+  doc.setLineWidth(0.5);
+  doc.line(20, 22, 180, 22);
+
+  const startY = 30;
+  let currentY = startY;
+
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "normal");
+  doc.text('Condition Name', 20, currentY);
+  doc.text('ICD Code', 150, currentY);
+  currentY += 10;
+
+  currentY += 5;
+
+  const maxConditionWidth = 80;
+
+  participant.diagnoses.forEach((diagnosis) => {
+    const wrappedConditionName = doc.splitTextToSize(diagnosis.conditionName, maxConditionWidth);
+
+    wrappedConditionName.forEach((line: string, index: number) => {
+      doc.text(line, 20, currentY + (index * 10));
+    });
+
+    doc.text(diagnosis.icdCode, 150, currentY);
+
+    currentY += wrappedConditionName.length * 10 + 10;
+  });
+
+  doc.save(`${participant.firstName}_${participant.lastName}_diagnoses.pdf`);
+};
+  
+
   return (
     <motion.div className={`participant-focus-container ${!isLoading ? 'visible' : ''}`}
     initial={{ opacity: 0 }}
@@ -55,6 +97,18 @@ const ParticipantFocusView: React.FC = () => {
         <div className="diagnoses-box">
           <h2 className="participant-name-2">{
           participant.firstName} {participant.lastName}
+          {/* Export PDF Button */}
+          <button
+              className="export-button"
+              onClick={generatePDF}
+            >
+              <img
+                  src={downloadIcon}
+                  alt="Download Icon"
+                  className="download-icon"
+                />
+            </button>
+
           </h2>
           <h3 className="icd-code-label">ICD Codes ({participant.diagnoses.length})</h3>
           

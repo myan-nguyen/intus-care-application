@@ -157,3 +157,29 @@
   height: 40px;
   animation: spin 1s linear infinite;
 }
+
+.export-button {
+  padding: 13px 1px;
+  margin-left: 520px;
+  color: white;
+  background-color: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  background: none;
+  box-shadow: 0px 0.4px 0.4rem 0.06rem rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+}
+
+.export-button:hover {
+  border: 2px solid rgba(77, 126, 248, 0.5);
+}
+
+.download-icon {
+  width: 28px; 
+  height: 28px;
+}
