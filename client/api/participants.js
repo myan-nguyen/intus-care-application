@@ -6,8 +6,8 @@ module.exports = (req, res) => {
   // Enable CORS for all origins
   cors()(req, res, () => {
     if (req.method === 'GET') {
-      // Check if the request is for a specific participant by matching /participant/:id
-      if (req.url.startsWith("/participant/")) {
+      // Check if the request is for a specific participant by matching /participants/:id
+      if (req.url.startsWith("/api/participants/")) {
         const participantId = req.url.split("/").pop(); // Extract the participant ID from the URL
         const participant = participants.find(p => p.id === participantId);
 
@@ -17,7 +17,7 @@ module.exports = (req, res) => {
           return res.status(404).json({ message: 'Participant not found' });  // Participant not found
         }
       } else {
-        // If the URL does not match /participant/:id, return the first 10 participants
+        // If no specific participant, return the first 10 participants
         return res.json(participants.slice(0, 10));
       }
     } else {
