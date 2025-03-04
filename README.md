@@ -2,7 +2,7 @@
 Bootstrapped with React and Typescript, I spent roughly 20 hours completing this challenge. I would like to thank you for the application opportunity, I had a lot of fun throughout the whole process and hope you enjoy my work as well! Here are some changes I made and extra features I implemented:
 
 - Implemented a sorting filter for icdCode lengths, defaults to highest to lowest but can be toggled to lowest to highest
-- Implemented a search baar based on participant name or specific ICD code
+- Implemented a search bar based on participant name or specific ICD code
 - Extending sorting by adding an ascending/descending alphabetical sort button, can also be toggled
 - Can export participant's conditions and corresponding ICD Codes in a PDF file for sharing
 - Used Framer Motion for a cleaner UX: incorporated subtle hover animations, animated the "Back" Button and created smooth transitions between ParticipantList and ParticipantFocusView screens
