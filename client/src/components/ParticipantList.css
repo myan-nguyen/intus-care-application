@@ -141,13 +141,14 @@
 
 .search-input {
   padding: 6px 12px;
-  margin-right: 200px;
+  margin-right: 270px;
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
   outline: none;
   transition: 0.2s ease-in-out;
   margin-top: 10px;
+  height: 20px;
 }
 
 .search-input:focus {
