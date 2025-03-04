@@ -1,26 +1,27 @@
-const { participants } = require('../data');
+const { participants } = require('../data');  // Import participants from data.js
 const cors = require('cors');
 
-// Use CORS with specific options if needed
-const corsOptions = {
-  origin: 'https://intus-care-application-b8qlty1lt-myan-nguyens-projects.vercel.app', // Allow only your frontend URL
-  methods: ['GET'],
-};
-
+// Create a CORS-enabled handler for API requests
 module.exports = (req, res) => {
-  // Enable CORS for all origins or specific origins
-  cors(corsOptions)(req, res, () => {
-    const { id } = req.query;  // Extract the dynamic `id` from the URL
-
+  // Enable CORS for all origins
+  cors()(req, res, () => {
     if (req.method === 'GET') {
-      const participant = participants.find(p => p.id === id);
+      // Check if the request is for a specific participant by matching /participants/:id
+      if (req.url.startsWith("/api/participants/")) {
+        const participantId = req.url.split("/").pop(); // Extract the participant ID from the URL
+        const participant = participants.find(p => p.id === participantId);
 
-      if (participant) {
-        return res.json(participant);  // Return the specific participant
+        if (participant) {
+          return res.json(participant);  // Return the participant by ID
+        } else {
+          return res.status(404).json({ message: 'Participant not found' });  // Participant not found
+        }
       } else {
-        return res.status(404).json({ message: 'Participant not found' });
+        // If no specific participant, return the first 10 participants
+        return res.json(participants.slice(0, 10));
       }
     } else {
+      // If the request method is not GET, return a 405 error
       return res.status(405).json({ message: 'Method Not Allowed' });
     }
   });
