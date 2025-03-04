@@ -67,10 +67,21 @@
   font-weight: normal;
 }
 
+.alph-sort-button {
+  display: block;
+  color: white;
+  background: none;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 7px;
+}
+
 .icd-sort-container {
   display: flex;
   align-items: center;
-  margin-right: 180px;
+  margin-right: 245px;
 }
 
 .icd-label {
@@ -124,6 +135,7 @@
 
 .search-input {
   padding: 6px 12px;
+  margin-right: 200px;
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;

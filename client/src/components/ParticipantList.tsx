@@ -98,6 +98,21 @@ const ParticipantList: React.FC<ParticipantListProps> = ({
           {/* Column Labels */}
           <div className="column-labels">
             <span className="participant-name-heading">Participant Name</span>
+            {/* Sort Alphabetically by Name Button */}
+            <button
+                className="alph-sort-button"
+                onClick={() => {
+                  setSortBy('name');
+                  setSortNameOrder(sortNameOrder === 'desc' ? 'asc' : 'desc');
+                }}
+              >
+                <img
+                  src={sortNameOrder === 'desc' ? alphDescIcon : alphAscIcon}
+                  alt="Alphabetical Sort Icon"
+                  className="sort-icon"
+                />
+              </button>
+            
             {/* Search Bar */}
             <input
                 type="text"
@@ -120,20 +135,6 @@ const ParticipantList: React.FC<ParticipantListProps> = ({
                 <img
                   src={sortOrder === 'desc' ? sortDescIcon : sortAscIcon}
                   alt="Sort Icon"
-                  className="sort-icon"
-                />
-              </button>
-              {/* Sort Alphabetically by Name Button */}
-              <button
-                className="sort-button"
-                onClick={() => {
-                  setSortBy('name');
-                  setSortNameOrder(sortNameOrder === 'desc' ? 'asc' : 'desc');
-                }}
-              >
-                <img
-                  src={sortNameOrder === 'desc' ? alphDescIcon : alphAscIcon}
-                  alt="Alphabetical Sort Icon"
                   className="sort-icon"
                 />
               </button>
