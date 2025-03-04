@@ -63,9 +63,13 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  width: 100%;
   border-bottom: 1px solid grey;
 }
 
+.diagnoses-headers button {
+  flex-shrink: 0;
+}
 
 .participant-name-2 {
   font-weight: bold;
@@ -74,6 +78,8 @@
   padding-left: 15px;
   padding-bottom: 5px;
   position: relative;
+  white-space: nowrap;
+  flex-grow: 1;
 }
 
 .icd-code-label {
@@ -184,7 +190,7 @@
 
 .extra-info-button {
   padding: 6px 1px;
-  margin-left: 450px;
+  margin-left: 350px;
   color: #000000;
   font-size: 35px;
   background-color: none;
